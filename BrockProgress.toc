@@ -1,0 +1,31 @@
+## Interface:70300
+
+## Title: BrockProgress v 0.41
+## Notes: test version aug 2016## 
+draenor.lua
+draenorachievements.lua
+
+petAchievements.lua
+pandaria.lua
+pandariaAchievements.lua
+wrath.lua
+wrathachievements.lua
+Achievements.lua
+dungeonAchievements.lua
+dungeonAchievements2.lua
+dungeons.lua
+pvpAchievements.lua
+pvp.lua
+professions.lua
+vanilla.lua
+currency.lua
+cataachievements.lua
+cataclysm.lua
+outland.lua
+outlandAchievements.lua
+BrockProgress.lua
+checks.lua
+holidays.lua
+holidayAchievements.lua
+garrisonAchievements.lua
+BrockProgress.xml                                                                                                                                                                                                                                                                                                                                                                                                                              

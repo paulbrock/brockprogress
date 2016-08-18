@@ -1,0 +1,13 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+	<Script file="BrockProgress.lua"/>
+	<Frame name="BrockProgressFrame" hidden="true" parent="UIParent">
+		<Scripts>
+			<OnLoad> BrockProgress_OnLoad();self:RegisterForDrag("LeftButton");</OnLoad>
+                        <OnEvent> BrockProgress_OnEvent(self,event,...)</OnEvent>
+                        <OnDragStart>BrockProgressFrame:StartMoving();</OnDragStart>
+                        <OnDragStop>BrockProgressFrame:StopMovingOrSizing();</OnDragStop>
+
+		</Scripts>
+	</Frame>		
+</Ui>
