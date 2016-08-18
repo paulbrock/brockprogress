@@ -96,6 +96,7 @@ return (totallevel/3)
 
 end
 
+--quests specific to each expansion
 function checkQuests(includesOtherCharacters)
   if CharacterDoingVanilla() then
     OutputVanillaAchievements(includesOtherCharacters)
@@ -124,6 +125,20 @@ function checkQuests(includesOtherCharacters)
   end
   checkDraenorQuests(includesOtherCharacters)
 end
+
+
+function level5(includesOtherCharacters)
+  OutputAchievementsFromTable(LEVELFIVEACHIEVEMENTS, includesOtherCharacters,20)  
+  if UnitLevel("player") < 20 then
+    Quests()
+	if includesOtherCharacters then --only do once
+	  checkSecondaryProfessions()
+      checkPrimaryProfessions()
+	end
+  end
+end
+
+
 
 function level10(includesOtherCharacters)
   displayRep(getHomeFaction(),HONORED)
@@ -328,7 +343,7 @@ end
 
 function getQuestTarget(playerlevel)
   if (playerlevel < 10) then  
-    return 1
+    return 50
   elseif (playerlevel >= 10) and (playerlevel < 15) then  
     return 100
   elseif (playerlevel < 25) then  
@@ -507,7 +522,7 @@ if CHECKMISSINGACHIEVEMENTS then -- just do all anyway;NEEDS updating; ok as all
     displayPartAchievement(WELLREAD,16)
      displayPartAchievement(TOALLTHESQUIRRELSIVELOVED,9)
      displayPartAchievement(PESTCONTROL,9)
-     Quests()
+	 Quests()
      displayPartAchievement(TWOHUNDREDDAILIES,100)
      Gold(500000)
 end
