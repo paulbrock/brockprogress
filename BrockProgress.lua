@@ -459,6 +459,9 @@ function updateFrame()
       playerlevel = 120
     end
     --ChatFrame1:AddMessage("BrockProgress:levelscheck");
+    if playerlevel >= 5 then
+      level5(includeOtherplayers);
+    end
     if playerlevel >= 10 then
       level10(includeOtherplayers);
     end
