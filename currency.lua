@@ -1,6 +1,4 @@
 --currency types
-HONOR = 392
-HONORTARGET = 2175
 DARKMOONTARGET = 0
 DARKMOONTICKETS = 515
 
@@ -12,10 +10,7 @@ end
 
 
 function checkCurrencies()
---only two for now, honor and darkmoon tickets
-  if getCurrencyLevel(HONOR) >= HONORTARGET then
-    addLine("spend honor! Balance:"..getCurrencyLevel(HONOR))
-  end
+--only one for now, darkmoon tickets
   --checkDarkmoonTickets()
 end
 
