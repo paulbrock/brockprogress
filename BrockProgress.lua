@@ -1,7 +1,7 @@
 CHECKMISSINGACHIEVEMENTS = false;--debugging
 MAXSEED = 14;
 MAXOUTPUTCOUNTER = 30; --normally 12
-MINIMUMLEVELFORMACHECK = 10; -- checking missing achs
+MINIMUMLEVELFORMACHECK = 5; -- checking missing achs
 Seed = 0;
 outputFrame = nil;
 outputshown = nil;
@@ -119,7 +119,7 @@ function MissingAchievementsCheck()
   holidaycats[15259] = true; -- fashion
   holidaycats[15119] = true; --pet battles
   holidaycats[15118] = true; --pet battles
-  
+  holidaycats[96] =true; --quests
   holidaycats[15266] = true; --pvp
   
   
@@ -169,6 +169,7 @@ holidaycats[14922] = true; --lK raid - 271
   holidaycats[15252] = true; --quests
   holidaycats[15267] = true; --quests
 holidaycats[15257] = true; --explore
+holidaycats[97] = true; --explore
 holidaycats[11138] = true; --first aid
 
   
@@ -458,6 +459,9 @@ function updateFrame()
       playerlevel = 120
     end
     --ChatFrame1:AddMessage("BrockProgress:levelscheck");
+    if playerlevel >= 5 then
+      level5(includeOtherplayers);
+    end
     if playerlevel >= 10 then
       level10(includeOtherplayers);
     end
