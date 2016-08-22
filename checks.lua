@@ -1,36 +1,8 @@
-  
-function DKinStartZone()
- -- if class == dk and level == 58 then return true
- if UnitClass("player") == "Death Knight" and UnitLevel("player") < 58 then
-
-   return true
- else  
-   return false
- end
-end
 
 function Quests()
    displayPartAchievement(THREETHOUSANDQUESTS,getQuestTarget(UnitLevel("player")))
 end
 
-function pandaInStartZone()
- if UnitRace("player") == "Pandaren" and UnitFactionGroup("player") == "Neutral" then
-   return true
- else  
-   return false
- end
-end
-
-
-
-
-function Alliance()
- return (UnitFactionGroup("player") == "Alliance")
-end
-
-function Horde()
- return (UnitFactionGroup("player") == "Horde")
-end
 
 function allGeneral()
   displayAchievement(SHAVEANDAHAIRCUT) --might as well dump it here
@@ -129,19 +101,22 @@ end
 
 function level5(includesOtherCharacters)
   OutputAchievementsFromTable(LEVELFIVEACHIEVEMENTS, includesOtherCharacters,20)  
-  if UnitLevel("player") < 20 then
-    Quests()
-	if includesOtherCharacters then --only do once
-	  checkSecondaryProfessions()
-      checkPrimaryProfessions()
+  if UnitLevel("player") <= 20 then
+    if includesOtherCharacters then --only do once
+	  Quests()
+	  if not pandaInStartZone() then
+	    checkSecondaryProfessions()
+		displayRep(getHomeFaction(),HONORED)
+	  end
+	  checkPrimaryProfessions()
 	end
   end
+  
 end
 
 
 
 function level10(includesOtherCharacters)
-  displayRep(getHomeFaction(),HONORED)
   local startzone = getStartzone()
   if startzone ~= nil then
     displayAchievement(startzone, includesOtherCharacters)
@@ -166,6 +141,7 @@ function level15(includesOtherCharacters)
   GeneralDungeons()
   displayRep(getHomeFaction(),REVERED)
   checkProvingGrounds(includesOtherCharacters) -- leave here for now as 15+ supposed to get ach
+  OAFT(APPEARANCEACHIEVEMENTS,includesOtherCharacters)
 end
 
 
@@ -341,28 +317,6 @@ displayAchievement(INSANEINTHEMEMBRANE)
   OAFT(MOUNTACHS,includesOtherCharacters)
 end
 
-function getQuestTarget(playerlevel)
-  if (playerlevel < 10) then  
-    return 50
-  elseif (playerlevel >= 10) and (playerlevel < 15) then  
-    return 100
-  elseif (playerlevel < 25) then  
-    return 250
-  elseif (playerlevel >= 25) and (playerlevel < 30) then  
-    return 400
-  elseif (playerlevel >= 30) and (playerlevel < 35) then  
-    return 500
-  elseif (playerlevel >= 35) and (playerlevel < 40) then  
-    return 600
-  elseif (playerlevel >= 40) and (playerlevel < 50) then  
-    return 700
-  elseif (playerlevel >= 50) and (playerlevel < 60) then  
-    return 800
-  else   -- >= 50
-    return 2000
-  end
-end
-
 
 --so depending on the value of Seed, we only output a couple of non-essential achievements;should tie in with bg of the day really...
 function AchOfTheDay(includesOtherCharacters)
@@ -392,12 +346,14 @@ if Seed == 1 then
     OutputAchievementsFromTable(LEVELTENPVPACHIEVEMENTS, includesOtherCharacters,2)
   end
 elseif Seed == 2 then
-  if includesOtherCharacters then  --only do it once
+  if includesOtherCharacters and playerlevel > 20 then  --only do it once
       checkSecondaryProfessions()
       checkPrimaryProfessions()
    end
  elseif Seed == 3 then
-   allPetBattleAchievements(includesOtherCharacters) 
+   if not IsTrialAccount() then  --trials can't do pet battle
+     allPetBattleAchievements(includesOtherCharacters) 
+   end
  elseif Seed == 4 then
    archaeologyAchievements(includesOtherCharacters) 
 elseif Seed == 14 then
@@ -513,7 +469,11 @@ if CHECKMISSINGACHIEVEMENTS then -- just do all anyway;NEEDS updating; ok as all
 	archaeologyAchievements(includesOtherCharacters) 
     IsleOfConquest(includesOtherCharacters) -- 55
     allPetBattleAchievements(includesOtherCharacters) 
-    displayPartAchievement(TASTESLIKECHICKEN,25)
+   	displayAchievement(TASTESLIKECHICKEN, includesOtherCharacters)
+     displayAchievement(ITSHAPPYHOUR,includesOtherCharacters)
+	displayAchievement(STOCKINGUP,includesOtherCharacters)
+    displayAchievement(PREPARINGFORDISASTER,includesOtherCharacters)
+	displayAchievement(ULTIMATETRIAGE,includesOtherCharacters)
     if Alliance() then
       OutputAchievementsFromTable(PVPALLIANCEACHIEVEMENTS)
     else
@@ -529,41 +489,6 @@ end
 end
 
 
-
--- output acheivements from table
-function OAFT(table,accountwide, lines)
-
-   startcount = outputcounter; --can we see outputcounter?
-  if lines == nil then
-    lines = 10
-  end
-  if CHECKMISSINGACHIEVEMENTS then
-    lines = 9999
-  end
-  if table == nil then
-    ChatFrame1:AddMessage("OAFT passed nil table")
-    return
-  end
-     -- get player level
-  local playerlevel = UnitLevel("player");
-  if CHECKMISSINGACHIEVEMENTS then
-    playerlevel = 120
-  end
-  for currachievement,currlevel in pairs(table) do
-     -- if table level < player level then display achievement
-      if currlevel <= playerlevel then
-        displayAchievement(currachievement,accountwide)
-        if (outputcounter-startcount) >= lines then
-           return
-        end
-      end 
-  end
-end
- 
-
-function OutputAchievementsFromTable(table, accountwide, lines)
-  OAFT(table,accountwide, lines);
-end
 
 
 local MINPERCENT = 90

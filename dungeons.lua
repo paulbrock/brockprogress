@@ -61,8 +61,12 @@ function checkDungeons(includesOtherCharacters)
  if not DKinStartZone() then
     local playerlevel = UnitLevel("player");
     checkDungeonList(VANILLADUNGEONACHIEVEMENTS,VANILLADUNGEONMAXLEVEL,includesOtherCharacters)
-    checkDungeonList(BCDUNGEONACHIEVEMENTS,BCDUNGEONMAXLEVEL,includesOtherCharacters)
-    checkDungeonList(WRATHDUNGEONACHS,WRATHDUNGEONMAXLEVEL,includesOtherCharacters)
+	if playerlevel > 15 then
+	  displayAchievement(FIVEDUNGEON,includesOtherCharacters)
+	  displayAchievement(TWENTYDUNGEON,includesOtherCharacters)
+      checkDungeonList(BCDUNGEONACHIEVEMENTS,BCDUNGEONMAXLEVEL,includesOtherCharacters)
+      checkDungeonList(WRATHDUNGEONACHS,WRATHDUNGEONMAXLEVEL,includesOtherCharacters)
+	 end
 
 --only faction-specific dungeon achs!
     if (playerlevel <= 85 and playerlevel >= 80) or CHECKMISSINGACHIEVEMENTS then
