@@ -33,7 +33,9 @@ function checkHolidays(accountWide,CHECKMISSINGACHIEVEMENTSLOCAL)
        end
     end
   end
-
+  --temporary hack
+  LegionPreLaunch(accountWide)
+  
   if CHECKMISSINGACHIEVEMENTSLOCAL then
        ChatFrame1:AddMessage("BrockProgress-checkholidays: checking all hols")      
        PilgrimsBounty(accountWide)
@@ -53,6 +55,17 @@ function checkHolidays(accountWide,CHECKMISSINGACHIEVEMENTSLOCAL)
        ChatFrame1:AddMessage("BrockProgress: completed checking all hols")      
    end
 
+end
+
+function LegionPreLaunch(accountWide)
+local DEFENDEROFAZEROTH=11201
+local ITALLMAKESSENSENOW=11065
+local STANDAGAINSTTHELEGION=11200
+if not inLockedStarterZone() then 
+ displayAchievement(DEFENDEROFAZEROTH,accountWide)
+ displayAchievement(ITALLMAKESSENSENOW,accountWide)
+ displayAchievement(STANDAGAINSTTHELEGION,accountWide)
+ end
 end
 
 --check pvp holidays.  Not quite sure how to do this.

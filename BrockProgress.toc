@@ -4,7 +4,7 @@
 ## Notes: test version aug 2016## 
 draenor.lua
 draenorachievements.lua
-
+utilityfunctions.lua
 petAchievements.lua
 pandaria.lua
 pandariaAchievements.lua

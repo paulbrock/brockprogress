@@ -55,8 +55,8 @@ homefaction["PandarenH"] = HUOJIN
 
 
 --number is amount to hit,one below wiki
-HONORED = 6000;
-REVERED = 18000
+HONORED = 9000;
+REVERED = 18000; --this needs to be checked
 
 
 checkedAchievements = {}
@@ -113,47 +113,35 @@ function MissingAchievementsCheck()
   holidaycats[15268]= true; -- legacy achievements
   holidaycats[15277]= true; -- legacy achievements
   holidaycats[15278]= true; -- legacy achievements
-  
-  
-  
-  holidaycats[15259] = true; -- fashion
+  holidaycats[15280]= true; -- legacy achievements
+  holidaycats[155]= true; -- general holiday - includes what a strange trip
+  holidaycats[96] =true; --quests -- excludes 2000 quests (already got)
   holidaycats[15119] = true; --pet battles
   holidaycats[15118] = true; --pet battles
-  holidaycats[96] =true; --quests
-  holidaycats[15266] = true; --pvp
-  
-  
-  
+
 --RAIDS
   holidaycats[15068] = true; --cata raids - 62
-  holidaycats[15107] = true; --panda raids - 107
-holidaycats[14922] = true; --lK raid - 271
-  
---also panda stuff I cba with right now 
+  holidaycats[14922] = true; --lK raid - 271
+
+--pandaria
+ holidaycats[15071] = true; --panda+ archaeology
+ holidaycats[15107] = true; --panda raids - 107
+ holidaycats[170] = true; --pandaren cooking
+ holidaycats[168]= true; --panda+ raid
+ holidaycats[171] = true; --panda+ fishing --55
  
--- tried once already
- holidaycats[170] = true; --cooking? --54
--- holidaycats[96] = true; --quests? --25
- holidaycats[171] = true; --fishing? --55
- holidaycats[172] = true; --fiRSTAID
- holidaycats[95] = true; --pvp 61
- holidaycats[92] = true; --general stuff should already be on
- holidaycats[168]= true; --raid general 34
- holidaycats[15071] = true; --archaeology - lots of panda - 94
-  --holidaycats[14941] = true; --argent tournament -35 
-
 --draenor
-  holidaycats[169] = true; --professions general -24
+ holidaycats[95] = true; --draenor pvp 
+ holidaycats[169] = true; --professions general -24
   holidaycats[15220] = true; --quests -82
-
   holidaycats[15238] = true; --garrison buildings -51
-  --holidaycats[92] = true; --general 60
+  holidaycats[92] = true; --general stuff 
   holidaycats[15250] = true; --shipyard -27
   holidaycats[15246] = true; --collections
- 
+  
 --max level draenor
-  holidaycats[15231] = true; --raids - 75
-  --holidaycats[15202] = true; --brawlers guild (min level 90) - 19
+  holidaycats[15092] = true; --rated bg
+ holidaycats[15231] = true; --raids - 75
   holidaycats[15241] = true; --ashran - pvp - 21
   holidaycats[15115] = true; --challenge mode -36
   holidaycats[15222] = true; --proving grounds
@@ -170,8 +158,9 @@ holidaycats[14922] = true; --lK raid - 271
   holidaycats[15267] = true; --quests
 holidaycats[15257] = true; --explore
 holidaycats[97] = true; --explore
-holidaycats[11138] = true; --first aid
-
+ holidaycats[172] = true; --fiRSTAID
+holidaycats[15266] = true; --pvp new honor system
+  
   
 --no point if not at least lvl 60 - is this cos some are hidden? more because
 -- lots of checks are level dependent.  shouldn't be for debug
@@ -449,12 +438,11 @@ function updateFrame()
       checkDungeons(includeOtherplayers) --includes other characters achs
 	  checkQuests(includeOtherplayers)
       if includeOtherplayers and (playerlevel >= 10) then   -- only check these once
-        DailyBattleground()
-   --     ChatFrame1:AddMessage("BrockProgress:can't check currencies");
+        --DailyBattleground() skip for now due to focus on pve
         checkCurrencies()
       end
     AchOfTheDay(includeOtherplayers)
-    CMAFlag();
+    --CMAFlag();
 	if CHECKMISSINGACHIEVEMENTS then
       playerlevel = 120
     end
@@ -474,11 +462,12 @@ function updateFrame()
     end
  
     if playerlevel >= 70 then
+	   ChatFrame1:AddMessage("BrockProgress:calling level 70 achs");
       level70(includeOtherplayers)
       if playerlevel >= 80 then
        level80(includeOtherplayers)
        AllWintergraspAchievements()
-	   --ChatFrame1:AddMessage("BrockProgress:calling rated bg achs");
+	   ChatFrame1:AddMessage("BrockProgress:calling rated bg achs");
        AllRatedBGAchievements()
        AllTolBaradAchievements()
       end
@@ -649,7 +638,7 @@ function displayRep(faction,target)
 --display current and target
   if faction ~= nil then
     local name,description,standingId,bottom,top,earnedvalue=GetFactionInfo(faction)
-     if target > earnedvalue then
+	 if target > earnedvalue then
         addLine(name..":"..earnedvalue.."/"..target);
      end
   else
@@ -657,16 +646,6 @@ function displayRep(faction,target)
   end
 end
 
-
-function CMAFlag()
-  if CHECKMISSINGACHIEVEMENTS == nil then
-    ChatFrame1:AddMessage("CMA Flag is nil")
-  elseif CHECKMISSINGACHIEVEMENTS then
-    ChatFrame1:AddMessage("CMA Flag is true")
-  elseif CHECKMISSINGACHIEVEMENTS then
-  	ChatFrame1:AddMessage("CMA Flag is neither nil nor true")
-  end
-end
 
 function checkZoneForAchievements(includeOtherplayers)
     zoneName = GetZoneText()
@@ -678,6 +657,8 @@ function checkZoneForAchievements(includeOtherplayers)
 	  OAFT(AZSHARAACHS,includeOtherplayers)
 	elseif zoneName == STORMWINDCITY then
 	  OAFT(STORMWINDCITYACHS,includeOtherplayers)
+	elseif zoneName == UNDERCITY then
+	  OAFT(UNDERCITYACHS,includeOtherplayers)
 	elseif zoneName == SHADOWMOONVALLEY then
 	  OAFT(SHADOWMOONVALLEYACHS,includeOtherplayers)
 	elseif zoneName == SPIRESOFARAK then
@@ -690,6 +671,10 @@ function checkZoneForAchievements(includeOtherplayers)
 	  OAFT(TERROKARACHS,includeOtherplayers)
 	elseif zoneName == DALARANZONE then
 	  OAFT(DALARANACHS,includeOtherplayers)
+	elseif (zoneName == WESTFALLZONE) or (zoneName == SENTINELTOWER) then
+	  OAFT(WESTFALLACHS,includeOtherplayers)
+	elseif (zoneName == DUROTARZONE) then
+	  OAFT(DUROTARACHS,includeOtherplayers)
 	  --dalaran our daily bread
 	else
 	ChatFrame1:AddMessage("i'M IN "..zoneName.." why no achievements? :( ");
@@ -709,5 +694,6 @@ function checkZoneForAchievements(includeOtherplayers)
 	  OAFT(BOREANTUNDRAACHS,includeOtherplayers)
 	  OAFT(TERROKARACHS,includeOtherplayers)
 	  OAFT(DALARANACHS,includeOtherplayers)
+	  OAFT(WESTFALLACHS,includeOtherplayers)
 	end
 	end
