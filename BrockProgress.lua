@@ -1,7 +1,8 @@
 CHECKMISSINGACHIEVEMENTS = false;--debugging
 MAXSEED = 14;
-MAXOUTPUTCOUNTER = 30; --normally 12
+MAXOUTPUTCOUNTER = 20; --normally 12
 MINIMUMLEVELFORMACHECK = 5; -- checking missing achs
+
 Seed = 0;
 outputFrame = nil;
 outputshown = nil;
@@ -36,6 +37,7 @@ TROLL = "Darkspear Trolls";
 BILGEWATER = "Bilgewater Cartel";
 TUSHUI = "Tushui Pandaren";
 HUOJIN = "Huojin Pandaren";
+FROSTWALL = "Frostwall"
 
 homefaction = {};
 homefaction["Human"]= STORMWIND
@@ -62,6 +64,7 @@ REVERED = 18000; --this needs to be checked
 checkedAchievements = {}
 
 outputcounter = 0;
+achsautotracked=0;
 
 SLASH_BROCKPROGRESS1 = '/progress';
 
@@ -134,10 +137,13 @@ function MissingAchievementsCheck()
  holidaycats[95] = true; --draenor pvp 
  holidaycats[169] = true; --professions general -24
   holidaycats[15220] = true; --quests -82
-  holidaycats[15238] = true; --garrison buildings -51
   holidaycats[92] = true; --general stuff 
-  holidaycats[15250] = true; --shipyard -27
-  holidaycats[15246] = true; --collections
+ -- holidaycats[15242] = true; --MONUMENTS
+ -- holidaycats[15235] = true; --explore
+ -- holidaycats[15237] = true; --garrison
+  holidaycats[15238] = true; --buildings
+ -- holidaycats[15249] = true; --invasion
+ -- holidaycats[15240] = true; --MISSIONS
   
 --max level draenor
   holidaycats[15092] = true; --rated bg
@@ -145,6 +151,7 @@ function MissingAchievementsCheck()
   holidaycats[15241] = true; --ashran - pvp - 21
   holidaycats[15115] = true; --challenge mode -36
   holidaycats[15222] = true; --proving grounds
+  holidaycats[15232] = true; --rep
   
 
  --legion
@@ -202,7 +209,7 @@ function initFrame()
     outputFrame:SetWidth(128);
     outputFrame:SetHeight(100);
     outputFrame:SetMovable(True);
-    outputFrame:SetPoint("CENTER",400,-150);
+    outputFrame:SetPoint("CENTER",350,-100);
     BrockProgress1 = outputFrame:CreateFontString();
 --    outputFrame:CreateFontString("BrockProgress1");
     BrockProgress1:SetFont("Fonts\\FRIZQT__.TTF", 11);
@@ -254,6 +261,7 @@ end
 
 function clearBrockFrame()
    outputcounter = 0;
+   achsautotracked = 0;
    BrockProgress1:SetText(" ")
    BrockProgress2:SetText(" ")
    BrockProgress3:SetText(" ");
@@ -315,7 +323,8 @@ function addLine(newtext,red,green,blue)
     outputcounter = outputcounter+1
   elseif outputcounter < MAXOUTPUTCOUNTER then
     outputcounter = outputcounter+1
-    ChatFrame1:AddMessage(newtext)
+    ChatFrame1:AddMessage(outputcounter..newtext)
+	--ChatFrame1:AddMessage(newtext)
  elseif outputcounter == MAXOUTPUTCOUNTER then
    outputcounter = outputcounter+1
    ChatFrame1:AddMessage("...more achievements")
@@ -462,13 +471,11 @@ function updateFrame()
     end
  
     if playerlevel >= 70 then
-	   ChatFrame1:AddMessage("BrockProgress:calling level 70 achs");
-      level70(includeOtherplayers)
+	   level70(includeOtherplayers)
       if playerlevel >= 80 then
        level80(includeOtherplayers)
        AllWintergraspAchievements()
-	   ChatFrame1:AddMessage("BrockProgress:calling rated bg achs");
-       AllRatedBGAchievements()
+	   AllRatedBGAchievements()
        AllTolBaradAchievements()
       end
       if playerlevel >= 85 then
@@ -537,7 +544,15 @@ end
 function goodAchievementToTrack(achnumber)
 -- what makes a good achievement to tracK?	
 -- few crtieria remaining.  for now though anything!
-  return true
+  criteria = GetAchievementNumCriteria(achnumber);
+  criteriacomplete = CriteriaComplete(achnumber);
+  if (criteria-criteriacomplete) < 5 and criteria ~= 1 then
+    ChatFrame1:AddMessage("Brockprogess:found good ach to track - "..achnumber.." criteria="..criteria)
+    return true
+  else 
+    ChatFrame1:AddMessage("Brockprogess:to many criteria - "..achnumber)
+    return false
+  end
 end
 
 --displays achievement if not complete
@@ -548,7 +563,7 @@ function displayAchievement(achnumber,includingOtherChars)
   checkedAchievements[achnumber] = true;
   local ID,Name,Points,Completed,_,_,_,_,_,_,_,_,wasEarnedByMe,earnedby = GetAchievementInfo(achnumber);
 
-  if Completed and wasEarnedByMe then 
+  if Completed and wasEarnedByMe then  --done by current character
     return;
   end
 
@@ -571,19 +586,20 @@ function displayAchievement(achnumber,includingOtherChars)
 --current character completed it (already hit above and returned)
 --no character completed it.  should output once for not inc alts, but not for the rest.
 --current character not completed it, but alts have. - only output once.  ok
-
+  
   if (not Completed) and includingOtherChars then -- by anyone, including alts. output for main character only
     if criteria == 1 then -- must be the case that no-one has it
       addLine(Name..":"..CriteriaComplete(achnumber).."/"..CriteriaRequired(achnumber));
     elseif criteria == 0 then
        addLine(Name)
     else
-      addLine(Name..":"..CriteriaComplete(achnumber).."/"..criteria);
+	  addLine(Name..":"..CriteriaComplete(achnumber).."/"..criteria);
     end
     --dirty version
-    if outputcounter < 2 then
+    if achsautotracked < 2 then -- only tries with first couple
       if goodAchievementToTrack(achnumber) then
       	 AddTrackedAchievement(achnumber)
+		 achsautotracked = achsautotracked+1
       end
     end
   end
@@ -591,11 +607,18 @@ function displayAchievement(achnumber,includingOtherChars)
 --otherwise been done on alt.  criteria must be 0.
     if Completed and (not includingOtherChars) then --only output on 2nd run
          addLine(Name.."(completed on alt)")
+		 if achsautotracked < 2 then -- only tries with first couple
+          if goodAchievementToTrack(achnumber) then
+      	     AddTrackedAchievement(achnumber)
+		     achsautotracked = achsautotracked+1
+          end
+        end
     end
 
   --also output achievementlinks in chat for clicking:
 
-  if criteria == 0 and Completed and includingOtherChars then -- no need to output name as no ach displayed
+  if Completed and includingOtherChars then -- no need to output name as no 
+  --if criteria == 0 and Completed and includingOtherChars then -- no need to output name as no ach displayed
     --do nothing
   elseif outputcounter < 14 then --no need to do it if already spilled out of box; sometimes outputs even if not needed
     ChatFrame1:AddMessage(Name)
@@ -666,9 +689,14 @@ function checkZoneForAchievements(includeOtherplayers)
 	elseif zoneName == AZSHARAZONE then
 	  OAFT(AZSHARAACHS,includeOtherplayers)
 	elseif zoneName == STORMWINDCITY then
-	  OAFT(STORMWINDCITYACHS,includeOtherplayers)
+      checkProvingGrounds(includeOtherplayers) 
+  	  OAFT(STORMWINDCITYACHS,includeOtherplayers)
+	elseif zoneName == IRONFORGE then
+	  checkProvingGrounds(includeOtherplayers) 
+	  OAFT(IRONFORGEACHS,includeOtherplayers)
 	elseif zoneName == UNDERCITY then
 	  OAFT(UNDERCITYACHS,includeOtherplayers)
+	  checkProvingGrounds(includeOtherplayers) 
 	elseif zoneName == SHADOWMOONVALLEY then
 	  OAFT(SHADOWMOONVALLEYACHS,includeOtherplayers)
 	elseif zoneName == SPIRESOFARAK then
@@ -683,9 +711,27 @@ function checkZoneForAchievements(includeOtherplayers)
 	  OAFT(DALARANACHS,includeOtherplayers)
 	elseif (zoneName == WESTFALLZONE) or (zoneName == SENTINELTOWER) then
 	  OAFT(WESTFALLACHS,includeOtherplayers)
+	elseif (zoneName == HILLSBRADZONE) then
+	  OAFT(HILLSBRADACHS,includeOtherplayers)
+	elseif (zoneName == GHOSTLANDZONE) then
+	  OAFT(GHOSTLANDACHS,includeOtherplayers)
 	elseif (zoneName == DUROTARZONE) then
 	  OAFT(DUROTARACHS,includeOtherplayers)
-	  --dalaran our daily bread
+	  checkProvingGrounds(includeOtherplayers) 
+	elseif (zoneName == FROSTWALL) then --GARRISON
+	  OAFT(GARRISONFOLLOWERSACHS,includeOtherplayers,5)
+	  OAFT(DRAENORGARRISONACHS,includeOtherplayers,5)
+	  OAFT(GARRISONBUILDINGNEUTRALACHS,includeOtherplayers,5)
+	  OAFT(GARRISONSHIPYARDNEUTRALACHS,includeOtherplayers,5)
+	  if Alliance() then
+        OAFT(DRAENORALLYGARRISONACHS,includeOtherplayers,5)
+	  else
+	    OAFT(DRAENORHORDEGARRISONACHS,includeOtherplayers,5)
+	  end
+	  OAFT(FROSTFIREACHS,includeOtherplayers)
+	  
+	elseif (zoneName == FROSTFIRERIDGE) then
+	  OAFT(FROSTFIREACHS,includeOtherplayers)
 	else
 	ChatFrame1:AddMessage("i'M IN "..zoneName.." why no achievements? :( ");
       -- add cities - cooking and fishing dailies.  add zones - quest and explore achs
@@ -694,16 +740,28 @@ function checkZoneForAchievements(includeOtherplayers)
 	
 	if CHECKMISSINGACHIEVEMENTS then
 	--show all
+	  OAFT(HILLSBRADACHS,includeOtherplayers)
+	  OAFT(GHOSTLANDACHS,includeOtherplayers)
       OAFT(DARKMOONFAIRENEUTRAL,includeOtherplayers)
 	  OAFT(GORGRONDACHS,includeOtherplayers)
 	  OAFT(AZSHARAACHS,includeOtherplayers)
 	  OAFT(STORMWINDCITYACHS,includeOtherplayers)
+	  OAFT(IRONFORGEACHS,includeOtherplayers)
 	  OAFT(SHADOWMOONVALLEYACHS,includeOtherplayers)
 	  OAFT(SPIRESOFARAKACHS,includeOtherplayers)
 	  OAFT(EVERBLOOMWILDSACHS,includeOtherplayers)
 	  OAFT(BOREANTUNDRAACHS,includeOtherplayers)
+	  OAFT(DUROTARACHS,includeOtherplayers)
 	  OAFT(TERROKARACHS,includeOtherplayers)
 	  OAFT(DALARANACHS,includeOtherplayers)
 	  OAFT(WESTFALLACHS,includeOtherplayers)
+	  OAFT(FROSTFIREACHS,includeOtherplayers)
+	  OAFT(GARRISONFOLLOWERSACHS,includeOtherplayers)
+	  OAFT(DRAENORGARRISONACHS,includeOtherplayers)
+	  OAFT(GARRISONBUILDINGNEUTRALACHS,includeOtherplayers)
+	  OAFT(GARRISONSHIPYARDNEUTRALACHS,includeOtherplayers)
+	  OAFT(DRAENORALLYGARRISONACHS,includeOtherplayers)
+	   OAFT(DRAENORHORDEGARRISONACHS,includeOtherplayers)
+	  
 	end
 	end

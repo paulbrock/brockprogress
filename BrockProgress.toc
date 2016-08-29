@@ -28,4 +28,6 @@ checks.lua
 holidays.lua
 holidayAchievements.lua
 garrisonAchievements.lua
-BrockProgress.xml                                                                                                                                                                                                                                                                                                                                                                                                                              
+brockprogressoptions.lua
+BrockProgress.xml                                                                                 
+BrockProgressOptions.xml                                                                                                                                                                                                                                                                                                                                                    

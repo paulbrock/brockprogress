@@ -65,7 +65,7 @@ OutputAchievementsFromTable(WRATHRAIDS, accountwide)
   displayAchievement(ANDILLFORMTHEHEAD,accountwide)
   displayAchievement(HERALDOFTHETITANS,accountwide)
   displayAchievement(INVINCIBLESREINS,accountwide)
-
+  
 
 end
 

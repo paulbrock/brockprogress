@@ -214,7 +214,7 @@ return maxskill
 end
 
 function archaeologyAchievements(accountWide)
-  OAFT(ARCHAEOLOGYACHS,accountWide)
+  OAFT(ARCHAEOLOGYACHS,accountWide,4)
   --maybe do something here on archy level.   maybe even base it entirely on prof level, 
   --or a combo of this and player level
 end

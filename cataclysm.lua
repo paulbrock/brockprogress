@@ -6,7 +6,7 @@ function doCataclysm()
  end
 
    local discard, playerclass = UnitClass("player");
-   if (playerclass == "ROGUE") or (playerclass == "DRUID") or CHECKMISSINGACHIEVEMENTS then
+   if (playerclass == "HUNTER") or (playerclass == "DRUID") or CHECKMISSINGACHIEVEMENTS then
      return true
    else 
      return false
@@ -22,8 +22,11 @@ end
 
 function CataQuests(accountwide)
   OAFT(CATAQUESTS,accountwide)
-  OAFT(CATAQUESTSALLY,accountwide)
-  OAFT(CATAQUESTSHORDE,accountwide)
+  if Alliance() then
+    OAFT(CATAQUESTSALLY,accountwide)
+  else
+    OAFT(CATAQUESTSHORDE,accountwide)
+  end
 end
 
 

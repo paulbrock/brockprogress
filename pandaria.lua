@@ -6,7 +6,7 @@ function doPandaria()
  end
 
    local discard, playerclass = UnitClass("player");
-   if (playerclass == "MAGE") or (playerclass == "WARLOCK") or CHECKMISSINGACHIEVEMENTS then
+   if (playerclass == "WARLOCK") or CHECKMISSINGACHIEVEMENTS then
      return true
    else 
      return false

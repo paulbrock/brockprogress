@@ -80,8 +80,10 @@ function checkDungeons(includesOtherCharacters)
     end
 	--ChatFrame1:AddMessage("BrockProgress - checking cata dungeons");
       checkDungeonList(CATADUNGEONACHS,CATADUNGEONMAXLEVEL,includesOtherCharacters)
-      checkDungeonListLimit(PANDADUNGEONACHS,PANDADUNGEONMAXLEVEL,includesOtherCharacters,5)
-      checkDungeonListLimit(PANDARAIDS,PANDARAIDSMAXLEVEL,includesOtherCharacters,5)
+      checkDungeonListLimit(PANDADUNGEONACHS,PANDADUNGEONMAXLEVEL,includesOtherCharacters,3)
+	  if doPandaria() then
+        checkDungeonListLimit(PANDARAIDS,PANDARAIDSMAXLEVEL,includesOtherCharacters,5)
+	  end
       checkDungeonListLimit(DRAENORDUNGEONACHS,DRAENORDUNGEONMAXLEVEL,includesOtherCharacters,5)
 --    end
  end

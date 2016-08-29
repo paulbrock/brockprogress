@@ -26,9 +26,9 @@ if CHECKMISSINGACHIEVEMENTS then
   playerlevel = 120
   avgpetlevel = 999
 end
-OAFT(COLLECTPETACHS,accountwide,2)
-OAFT(BATTLINGPETBATTLEACHS,accountwide,2)
-OAFT(LEVELLINGPETBATTLEACHS,accountwide,2)
+OAFT(COLLECTPETACHS,accountwide,1)
+OAFT(BATTLINGPETBATTLEACHS,accountwide,1)
+OAFT(LEVELLINGPETBATTLEACHS,accountwide,1)
 
 
 
@@ -140,20 +140,21 @@ end
 function level15(includesOtherCharacters)
   GeneralDungeons()
   displayRep(getHomeFaction(),REVERED)
-  checkProvingGrounds(includesOtherCharacters) -- leave here for now as 15+ supposed to get ach
-  OAFT(APPEARANCEACHIEVEMENTS,includesOtherCharacters)
+  
+  
 end
 
 
 function checkProvingGrounds(includesOtherCharacters)
+ChatFrame1:AddMessage("BrockProgress:calling proving grounds");
 if not IsTrialAccount()  then 
    --is char a tank class?
    --is char a heal class?
    --is char a dps class (all)
 
-   OutputAchievementsFromTable(PROVINGGROUNDSTANK,includesOtherCharacters,1)
-   OutputAchievementsFromTable(PROVINGGROUNDSHEAL,includesOtherCharacters,1)
-   OutputAchievementsFromTable(PROVINGGROUNDSACHS,includesOtherCharacters,3)
+   OutputAchievementsFromTable(PROVINGGROUNDSTANK,includesOtherCharacters)
+   OutputAchievementsFromTable(PROVINGGROUNDSHEAL,includesOtherCharacters)
+   OutputAchievementsFromTable(PROVINGGROUNDSACHS,includesOtherCharacters)
 end
 end
 
@@ -167,19 +168,15 @@ end
   if CharacterDoingOutlands() or CHECKMISSINGACHIEVEMENTS then
    displayAchievement(MEDIUMRARE,includesOtherCharacters)
    displayAchievement(BLOODYRARE,includesOtherCharacters)
-   
+   OAFT(OUTLANDREPACHS,includesOtherCharacters)
+   displayAchievement(MRPINCHYSMAGICALCRAWDADBOX,includesOtherCharacters)
   end
 
   checkItemLevel(80);
   displayAchievement(SAFEDEPOSIT,includesOtherCharacters)
 --feats
-  displayAchievement(THEBREADWINNER,includesOtherCharacters)
   if CharacterDoingVanilla() then
     vanillaRaids(includesOtherCharacters)
-  end
-  if CharacterDoingOutlands() then
-    OAFT(OUTLANDREPACHS,includesOtherCharacters)
-	
   end
 -- lots need sorting here
    displayAchievement(GOTMYMINDHUNDRED,includesOtherCharacters)
@@ -190,54 +187,8 @@ function level70(includesOtherCharacters)
 if Northrend() or CHECKMISSINGACHIEVEMENTS then
   allNorthrendAchievements()
 end
-
-displayAchievement(WORKINGDAYANDNIGHT,includesOtherCharacters)
-displayAchievement(PROFESSIONALGRANDMASTER,includesOtherCharacters)
-displayAchievement(SKILLSTOPAYTHEBILLS,includesOtherCharacters)
-displayAchievement(JUSTLYREWARDED,includesOtherCharacters)
-   
---feats for all sorts
-displayAchievement(TIMEFLIESWHENYOUREHAVINGFUN,includesOtherCharacters)
-
-displayAchievement(CRITTERGITTER,includesOtherCharacters)
-
-displayAchievement(HEMETNESINGWARYTHECOLLECTEDQUESTS,includesOtherCharacters)
-displayAchievement(THOUSANDCONQUESTPOINTS,includesOtherCharacters)
-displayAchievement(FIVETHOUSANDHONORABLEKILLS,includesOtherCharacters)
-
-displayAchievement(FRIENDORFOWL,includesOtherCharacters) --northrend
-
-displayAchievement(TRAVELERSTUNDRAMAMMOTH,includesOtherCharacters)
-displayAchievement(GETTOTHECHOPPA,includesOtherCharacters)
-displayAchievement(RINGOFTHEKIRINTOR,includesOtherCharacters)
-displayAchievement(SQUIRRELSWHOSHAREDMYLIFE,includesOtherCharacters) --northrend
-displayAchievement(SQUIRRELSWHOCAREDFORME,includesOtherCharacters) -- cata
-displayAchievement(ARMOREDBROWNBEAR,includesOtherCharacters)
-displayAchievement(WOOLYMAMMOTH,includesOtherCharacters)
-displayAchievement(MYSTICALLYSUPERIOR,includesOtherCharacters)
-displayAchievement(MYSTICALLYEPIC,includesOtherCharacters)
-
-    AllArenaAchievements(includesOtherCharacters)
-displayAchievement(CATACLYSMICALLYSUPERIOR,includesOtherCharacters)
-displayAchievement(CATACLYSMICALLYEPIC,includesOtherCharacters)
-displayAchievement(NOWIAMTHEMASTER,includesOtherCharacters)
-displayAchievement(VIALOFTHESANDS,includesOtherCharacters)
-
-displayAchievement(OFBLOODANDANGUISH,includesOtherCharacters)
-displayAchievement(PROFESSIONALILLUSTRIOUSGRANDMASTER,includesOtherCharacters)
-displayAchievement(JACKOFALLTRADES,includesOtherCharacters)
-displayAchievement(EPIC,includesOtherCharacters)
-displayAchievement(SUPERIOR,includesOtherCharacters) -- item level 187.  need wrath gear
-   displayAchievement(WGVICTORY)
---add argent tourney here
-
-
-displayAchievement(GREEDY,includesOtherCharacters)
-displayAchievement(NEEDY,includesOtherCharacters)
-
-displayAchievement(DOUBLEAGENT)
-displayAchievement(DYNAMICDUO)
-
+  OAFT(LEVELSEVENTYACHS,includesOtherCharacters)
+  displayAchievement(WGVICTORY,includesOtherCharacters)
 --not really needed
   allGeneral()
 
@@ -246,48 +197,18 @@ end
 
 function level80(includesOtherCharacters)
 --feats
-  displayAchievement(THOUSANDVALORPOINTS,includesOtherCharacters)
-displayAchievement(GRANDEXPEDITIONYAK,includesOtherCharacters)
+  OAFT(LEVELEIGHTYACHS,includesOtherCharacters)
+  displayAchievement(CITYDEFENDER,includesOtherCharacters)
+  displayAchievement(CALLTOARMS,includesOtherCharacters)
+displayAchievement(WRATHOFTHEHORDE,includesOtherCharacters)
+displayAchievement(STORMINGSTORMWIND,includesOtherCharacters)
+displayAchievement(OVERTHROWTHECOUNCIL,includesOtherCharacters)
+displayAchievement(IMMORTALNOMORE,includesOtherCharacters)
+displayAchievement(PUTTINGOUTTHELIGHT,includesOtherCharacters)
+displayAchievement(FORTHEHORDE,includesOtherCharacters)
+displayAchievement(THECONQUEROR,includesOtherCharacters)
 
-displayAchievement(FIFTEENEXALTED,includesOtherCharacters)
-displayAchievement(TENTABARDS,includesOtherCharacters)
-displayAchievement(BREAKINGTHESOUNDBARRIER,includesOtherCharacters)
-displayAchievement(THEIMMORTAL)
-displayAchievement(THEUNDYING)
-displayAchievement(GRANDBLACKWARMAMMOTH) --level80
-
-displayAchievement(CHAMPIONOFULDUAR)
-displayAchievement(CONQUEROROFULDUAR)
-displayAchievement(SCOUREROFTHEETERNALSANDS,includesOtherCharacters)
-displayAchievement(DRAGONWRATH,includesOtherCharacters) --level 85
-displayAchievement(FANGSOFTHEFATHER,includesOtherCharacters) --85
-
-displayAchievement(MYSACKISGIGANTIQUE,includesOtherCharacters)
-displayAchievement(ATRIBUTETODEDICATEDINSANITY)
-displayAchievement(ATRIBUTETOIMMORTALITYA)
-displayAchievement(ATRIBUTETOIMMORTALITYH)
-displayAchievement(ATRIBUTETOINSANITY10)
-displayAchievement(ATRIBUTETOINSANITY25)
-displayAchievement(ATRIBUTETOMADSKILL10)
-displayAchievement(ATRIBUTETOMADSKILL25)
-displayAchievement(ATRIBUTETOSKILL10)
-displayAchievement(ATRIBUTETOSKILL25)
-
-displayAchievement(THECATACLYSMICGOURMET)
-displayAchievement(THEPANDARENGOURMET)
-displayAchievement(THELOREMASTER)
-displayAchievement(CITYDEFENDER)
-displayAchievement(CALLTOARMS)
-displayAchievement(WRATHOFTHEHORDE)
-displayAchievement(STORMINGSTORMWIND)
-displayAchievement(OVERTHROWTHECOUNCIL)
-displayAchievement(IMMORTALNOMORE)
-displayAchievement(PUTTINGOUTTHELIGHT)
-displayAchievement(FORTHEHORDE)
-displayAchievement(THECONQUEROR)
-displayAchievement(SQUIRRELSIONCECARESSED,includesOtherCharacters) -- panda
-
-displayAchievement(ONEHUMPORTWO)
+  
 --cata
 if Cataclysm() or CHECKMISSINGACHIEVEMENTS then
   allCataAchievements()
@@ -336,7 +257,7 @@ function AchOfTheDay(includesOtherCharacters)
 
 --to add
 --12
---13
+--13 FASHION
 --14
 
  local playerlevel = UnitLevel("player");
@@ -349,6 +270,15 @@ elseif Seed == 2 then
   if includesOtherCharacters and playerlevel > 20 then  --only do it once
       checkSecondaryProfessions()
       checkPrimaryProfessions()
+	  if playerlevel > 70 then
+	    displayAchievement(SKILLSTOPAYTHEBILLS,includesOtherCharacters)
+		displayAchievement(PROFESSIONALGRANDMASTER,includesOtherCharacters)
+		displayAchievement(WORKINGDAYANDNIGHT,includesOtherCharacters)
+		displayAchievement(PROFESSIONALILLUSTRIOUSGRANDMASTER,includesOtherCharacters)
+		if playerlevel > 90 then
+		  displayAchievement(JACKOFALLTRADES,includesOtherCharacters)
+		end
+	  end
    end
  elseif Seed == 3 then
    if not IsTrialAccount() then  --trials can't do pet battle
@@ -359,7 +289,7 @@ elseif Seed == 2 then
 elseif Seed == 14 then
   if playerlevel > 20 and PVP() then
     OutputAchievementsFromTable(SILVERSHARDACHS, includesOtherCharacters,3) 
-    OAFT(KOTMOGUACHS, includesOtherCharacters)
+    OAFT(KOTMOGUACHS, includesOtherCharacters,3)
   end
 elseif Seed == 5 then --cooking
   if playerlevel > 15 then
@@ -375,7 +305,6 @@ elseif Seed == 5 then --cooking
   end
 elseif Seed == 6 then  
   if playerlevel > 40 then --dont really care about these
-        displayAchievement(STOCKINGUP,includesOtherCharacters)
         displayAchievement(PREPARINGFORDISASTER,includesOtherCharacters)
 		displayAchievement(ULTIMATETRIAGE,includesOtherCharacters)
   end
@@ -390,14 +319,13 @@ elseif Seed == 7 then
        HonorableKills(100) 
     end
   end
-  if playerlevel > 30 and PVP() and includesOtherCharacters then
-     HonorableKills(250)
-  end
-  if playerlevel > 35 and PVP() and includesOtherCharacters then
-    HonorableKills(500)
-  end
   if playerlevel > 50 and PVP() and includesOtherCharacters then
     HonorableKills(1000)
+  elseif playerlevel > 35 and PVP() and includesOtherCharacters then
+    HonorableKills(500)
+  elseif playerlevel > 30 and PVP() and includesOtherCharacters then
+     HonorableKills(250)
+  --AllArenaAchievements(includesOtherCharacters) DONT CALL DUE TO SEASON BREAK
   end
 elseif Seed == 11 then
   if playerlevel > 25 and includesOtherCharacters then
@@ -428,6 +356,8 @@ elseif Seed == 10 then
    displayPartAchievement(TOALLTHESQUIRRELSIVELOVED,11)
   end
   if playerlevel > 70 then
+   displayAchievement(SQUIRRELSWHOSHAREDMYLIFE,includesOtherCharacters) --northrend
+   displayAchievement(SQUIRRELSWHOCAREDFORME,includesOtherCharacters) -- cata
    displayAchievement(TOALLTHESQUIRRELSIVELOVED,includesOtherCharacters)
   end
 
@@ -445,8 +375,13 @@ elseif Seed == 8 then
      Gold(500000)
    end
 elseif Seed == 12 then
-   OAFT(FISHINGACHS,includesOtherCharacters)
+   OAFT(FISHINGACHS,includesOtherCharacters,3)
+elseif Seed == 13 then
+  OAFT(APPEARANCEACHIEVEMENTS,includesOtherCharacters,3)
 else
+
+
+
     ChatFrame1:AddMessage("no match for seed "..Seed)
   --error message
 end
@@ -466,12 +401,16 @@ if CHECKMISSINGACHIEVEMENTS then -- just do all anyway;NEEDS updating; ok as all
 	OAFT(KOTMOGUACHS, includesOtherCharacters)
 	OAFT(FISHINGACHS,includesOtherCharacters)
 	OAFT(COOKINGACHS,includesOtherCharacters)
+	displayAchievement(SQUIRRELSWHOSHAREDMYLIFE,includesOtherCharacters) --northrend
+   displayAchievement(SQUIRRELSWHOCAREDFORME,includesOtherCharacters) -- cata
+   displayAchievement(TOALLTHESQUIRRELSIVELOVED,includesOtherCharacters)
+	OAFT(APPEARANCEACHIEVEMENTS,includesOtherCharacters)
 	archaeologyAchievements(includesOtherCharacters) 
     IsleOfConquest(includesOtherCharacters) -- 55
     allPetBattleAchievements(includesOtherCharacters) 
    	displayAchievement(TASTESLIKECHICKEN, includesOtherCharacters)
      displayAchievement(ITSHAPPYHOUR,includesOtherCharacters)
-	displayAchievement(STOCKINGUP,includesOtherCharacters)
+	AllArenaAchievements(includesOtherCharacters)
     displayAchievement(PREPARINGFORDISASTER,includesOtherCharacters)
 	displayAchievement(ULTIMATETRIAGE,includesOtherCharacters)
     if Alliance() then

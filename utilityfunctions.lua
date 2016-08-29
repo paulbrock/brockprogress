@@ -73,10 +73,11 @@ function OAFT(table,accountwide, lines)
   for currachievement,currlevel in pairs(table) do
      -- if table level < player level then display achievement
       if currlevel <= playerlevel then
-        displayAchievement(currachievement,accountwide)
         if (outputcounter-startcount) >= lines then
            return
-        end
+        else
+		  displayAchievement(currachievement,accountwide)
+		end
       end 
   end
 end

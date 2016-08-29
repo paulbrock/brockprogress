@@ -3,6 +3,7 @@ function checkDraenorAchievements(accountwide)
   OAFT(DRAENORGARRISONACHS,accountwide)
   OAFT(DRAENORNEUTRALREPACHS,accountwide)
   OAFT(BRAWLERSGUILDACHS,accountwide)
+  OAFT(GARRISONSHIPYARDNEUTRALACHS,accountwide)
   if Alliance() then
     OAFT(DRAENORALLYGARRISONACHS,accountwide)
 	OAFT(DRAENORALLYREPACHS,accountwide)
