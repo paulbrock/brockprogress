@@ -34,37 +34,35 @@ function getSecondaryTarget(playerlevel)
 --can be used for fishing, first aid, cooking as always the same scale
   if (playerlevel < 5) then  
     return 0
-  elseif (playerlevel < 8) then  
+  elseif (playerlevel < 10) then  
     return 25
-  elseif (playerlevel >= 8) and (playerlevel < 10) then  
-    return 50
   elseif (playerlevel >= 10) and (playerlevel < 15) then  
-    return 75
+    return 50
   elseif (playerlevel >= 15) and (playerlevel < 25) then  
-    return 113
+    return 75
   elseif (playerlevel >= 25) and (playerlevel < 30) then  
-    return 150
+    return 100
   elseif (playerlevel >= 30) and (playerlevel < 40) then  
-    return 175
+    return 130
   elseif (playerlevel >= 40) and (playerlevel < 45) then  
-    return 200
+    return 175
   elseif (playerlevel >= 45) and (playerlevel < 65) then  
-    return 300
+    return 250
   elseif (playerlevel >= 65) and (playerlevel < 75) then  
-    return 375
+    return 300
   elseif (playerlevel >= 75) and (playerlevel < 80) then  
-    return 450
+    return 375
   elseif (playerlevel >= 80) and (playerlevel < 85) then  
-    return 525
+    return 450
   elseif (playerlevel >= 85) and (playerlevel < 90) then  
-    return 600
+    return 525
   elseif (playerlevel >= 90) and (playerlevel < 92) then  
-    return 650
+    return 600
   elseif (playerlevel >= 92) and (playerlevel < 95) then  
     return 700
   else   -- >= 45
     addLine("unknown profession target");
-    return 700
+    return 800
   end
 end
 
