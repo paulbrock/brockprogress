@@ -534,7 +534,16 @@ function Gold(target)
   displayPartAchievement(GOTMYMINDONMYMONEY5000,target)
 end
 
-
+function goodAchievementToTrack(achnumber)
+-- what makes a good achievement to tracK?	
+-- few crtieria remaining.  for now though anything!
+  criteria = GetAchievementNumCriteria(achnumber);
+  if criteria < 5 then
+    return true
+  else 
+    return false
+  end
+end
 
 --displays achievement if not complete
 function displayAchievement(achnumber,includingOtherChars)
@@ -575,6 +584,12 @@ function displayAchievement(achnumber,includingOtherChars)
        addLine(Name)
     else
       addLine(Name..":"..CriteriaComplete(achnumber).."/"..criteria);
+    end
+    --dirty version
+    if outputcounter < 2 then
+      if goodAchievementToTrack(achnumber) then
+      	 AddTrackedAchievement(achnumber)
+      end
     end
   end
 
